@@ -39,8 +39,7 @@ do
     15 - ${EXE_LOTUS_MINER} proving deadlines
     16 - ${EXE_LOTUS_MINER} storage-deals set-ask --price 5200000 --verified-price 5100000 --min-piece-size 256B --max-piece-size $ENV_SECTOR_SIZE
     17 - ${EXE_LOTUS_MINER} storage-deals get-ask
-       - ${EXE_LOTUS_MINER} actor set-addrs --gas-limit 5000000 /ip4/8.129.171.72/tcp/5427 /ip4/154.221.26.130/tcp/5427
-       - ${EXE_LOTUS_MINER} actor set-addrs --gas-limit 5000000 /ip4/8.129.171.72/tcp/5427 /ip4/47.115.150.1/tcp/5427
+       - ${EXE_LOTUS_MINER} actor set-addrs --gas-limit 5000000 /ip4/x.x.x.x/tcp/5427 /ip4/x.x.x.x/tcp/5427
       
     18 - ${EXE_LOTUS_MINER} actor withdraw [MinerBalance]
     19 - ${EXE_LOTUS} send --from=$owner --method=14 --params-json='\"[MinerBalance]000000000000000000\"' [MinerID] [MinerBalance]

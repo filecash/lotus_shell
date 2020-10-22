@@ -1,5 +1,24 @@
 #!/bin/bash
 
+# ENV_LOTUS_ROOT  .lotus .lotusminer .lotusworker  #export ENV_LOTUS_ROOT=/mnt
+if [ -z $ENV_LOTUS_ROOT ]; then
+  while [ -z $lotus_root ]
+  do
+    #lotus_root
+    while [ -z $lotus_root ]
+    do
+      read -e -p '  please input lotus_root:' lotus_root
+      if [ -z $lotus_root ]; then
+        #lotus_root=/mnt
+        lotus_root=$(cd `dirname $0`; pwd)
+      fi
+    done
+    #echo ' '
+    export ENV_LOTUS_ROOT=$lotus_root
+  done
+  echo " "
+fi
+
 #rm -rf /usr/local/bin/pause
 if [ ! -f "/usr/local/bin/pause" ]; then 
   sudo echo "#! /bin/bash
