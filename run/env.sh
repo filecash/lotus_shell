@@ -157,6 +157,7 @@ export EXE_LOTUS_SEED=lotus-seed
 export EXE_LOTUS_FOUNTAIN=lotus-fountain
 
 # log  all/trace/debug/info/warn/error/fatal/off
+export RUST_BACKTRACE=full
 export RUST_LOG=info
 export GOLOG_LOG_LEVEL=info
 
@@ -176,10 +177,17 @@ else
   export FIL_PROOFS_USE_GPU_COLUMN_BUILDER=1
   # tree_r_last
   export FIL_PROOFS_USE_GPU_TREE_BUILDER=1
+
+  # tree_c
+  #export FIL_PROOFS_MAX_GPU_COLUMN_BATCH_SIZE=400000
+  #export FIL_PROOFS_COLUMN_WRITE_BATCH_SIZE=262144
+  # tree_r_last
+  #export FIL_PROOFS_MAX_GPU_TREE_BATCH_SIZE=700000
 fi
 
 # multi sdr
 export FIL_PROOFS_USE_MULTICORE_SDR=1
+export FIL_PROOFS_SDR_PARENTS_CACHE_SIZE=2048
 #export FIL_PROOFS_PARENT_CACHE_SIZE=2048
 
 # speed or memory

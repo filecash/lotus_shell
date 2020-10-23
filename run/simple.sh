@@ -35,6 +35,8 @@ do
     19 - lotus send --from=$owner --method=14 --params-json='\"[MinerBalance]000000000000000000\"' [MinerID] [MinerBalance]
     20 - lotus wallet new bls
     21 - lotus wallet list
+    211 - lotus-miner actor control list
+    
     22 - lotus sync wait
     23 - lotus sync status
     24 - lotus fetch-params $ENV_SECTOR_SIZE
@@ -151,26 +153,33 @@ do
       echo -e "\033[34m 
     Select sector_state:      [`hostname`]  $localip
       
-      1 - FaultedFinal (default)
-      2 - Unsealed
-      3 - PreCommitted
-      4 - Packing
-      5 - Empty
+      0 - Committing
+      1 - FinalizeSector (default)
+      2 - FaultedFinal
+      3 - Unsealed
+      4 - PreCommitted
+      5 - Packing
+      6 - Empty
       \033[0m"
       read -e -p "  Input:" monitor_type
       if [ -z $monitor_type ]; then
         monitor_type=1
       fi
       
-      if [ $monitor_type -eq 1 ]; then
-        sector_state=FaultedFinal
+      
+      if [ $monitor_type -eq 0 ]; then
+        sector_state=Committing
+      elif [ $monitor_type -eq 1 ]; then
+        sector_state=FinalizeSector
       elif [ $monitor_type -eq 2 ]; then
-        sector_state=Unsealed
+        sector_state=FaultedFinal
       elif [ $monitor_type -eq 3 ]; then
-        sector_state=PreCommitted
+        sector_state=Unsealed
       elif [ $monitor_type -eq 4 ]; then
-        sector_state=Packing
+        sector_state=PreCommitted
       elif [ $monitor_type -eq 5 ]; then
+        sector_state=Packing
+      elif [ $monitor_type -eq 6 ]; then
         sector_state=Empty
       else
         echo -e "\033[31m Input error \033[0m"
@@ -323,8 +332,8 @@ do
     lotus wallet new bls
   elif [ $method -eq 21 ]; then  # lotus wallet list
     lotus wallet list
-  elif [ $method -eq 211 ]; then  # lotus actor contorl list
-    lotus actor contorl list
+  elif [ $method -eq 211 ]; then  # lotus-miner actor control list
+    lotus-miner actor control list
   elif [ $method -eq 22 ]; then  # lotus sync wait
     lotus sync wait
   elif [ $method -eq 222 ]; then  # lotus sync status

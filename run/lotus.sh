@@ -39,14 +39,15 @@ do
     15 - ${EXE_LOTUS_MINER} proving deadlines
     16 - ${EXE_LOTUS_MINER} storage-deals set-ask --price 5200000 --verified-price 5100000 --min-piece-size 256B --max-piece-size $ENV_SECTOR_SIZE
     17 - ${EXE_LOTUS_MINER} storage-deals get-ask
-       - ${EXE_LOTUS_MINER} actor set-addrs --gas-limit 5000000 /ip4/x.x.x.x/tcp/5427 /ip4/x.x.x.x/tcp/5427
+       - ${EXE_LOTUS_MINER} actor set-addrs --gas-limit 5000000 /ip4/8.129.171.72/tcp/5427 /ip4/154.221.26.130/tcp/5427
+       - ${EXE_LOTUS_MINER} actor set-addrs --gas-limit 5000000 /ip4/8.129.171.72/tcp/5427 /ip4/47.115.150.1/tcp/5427
       
     18 - ${EXE_LOTUS_MINER} actor withdraw [MinerBalance]
     19 - ${EXE_LOTUS} send --from=$owner --method=14 --params-json='\"[MinerBalance]000000000000000000\"' [MinerID] [MinerBalance]
     199 - ${EXE_LOTUS} send --from=$owner [MinerID] [MinerBalance]
     20 - ${EXE_LOTUS} wallet new bls
     21 - ${EXE_LOTUS} wallet list
-    211 - ${EXE_LOTUS} actor contorl list
+    211 - ${EXE_LOTUS_MINER} actor control list
     22 - ${EXE_LOTUS} sync wait
     222 - ${EXE_LOTUS} sync status
     23 - ${EXE_LOTUS} chain list
@@ -394,26 +395,33 @@ do
       echo -e "\033[34m 
     Select sector_state:      [`hostname`]  $localip
       
-      1 - FaultedFinal (default)
-      2 - Unsealed
-      3 - PreCommitted
-      4 - Packing
-      5 - Empty
+      0 - Committing
+      1 - FinalizeSector (default)
+      2 - FaultedFinal
+      3 - Unsealed
+      4 - PreCommitted
+      5 - Packing
+      6 - Empty
       \033[0m"
       read -e -p "  Input:" monitor_type
       if [ -z $monitor_type ]; then
         monitor_type=1
       fi
       
-      if [ $monitor_type -eq 1 ]; then
-        sector_state=FaultedFinal
+      
+      if [ $monitor_type -eq 0 ]; then
+        sector_state=Committing
+      elif [ $monitor_type -eq 1 ]; then
+        sector_state=FinalizeSector
       elif [ $monitor_type -eq 2 ]; then
-        sector_state=Unsealed
+        sector_state=FaultedFinal
       elif [ $monitor_type -eq 3 ]; then
-        sector_state=PreCommitted
+        sector_state=Unsealed
       elif [ $monitor_type -eq 4 ]; then
-        sector_state=Packing
+        sector_state=PreCommitted
       elif [ $monitor_type -eq 5 ]; then
+        sector_state=Packing
+      elif [ $monitor_type -eq 6 ]; then
         sector_state=Empty
       else
         echo -e "\033[31m Input error \033[0m"
@@ -626,8 +634,8 @@ do
     #  echo " "
     #done
   }
-  elif [ $method -eq 211 ]; then  # ${EXE_LOTUS} actor contorl list
-    ${EXE_LOTUS} actor contorl list
+  elif [ $method -eq 211 ]; then  # ${EXE_LOTUS_MINER} actor control list
+    ${EXE_LOTUS_MINER} actor control list
   elif [ $method -eq 22 ]; then  # ${EXE_LOTUS} sync wait
     ${EXE_LOTUS} sync wait
   elif [ $method -eq 222 ]; then  # ${EXE_LOTUS} sync status
