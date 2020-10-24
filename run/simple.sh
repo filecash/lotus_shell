@@ -26,10 +26,10 @@ do
     
     14 - lotus-miner proving info
     15 - lotus-miner proving deadlines
+    155 - lotus-miner proving deadline <id>
     16 - lotus-miner storage-deals set-ask --price 5200000 --verified-price 5100000 --min-piece-size 256B --max-piece-size $ENV_SECTOR_SIZE
     17 - lotus-miner storage-deals get-ask
-       - lotus-miner actor set-addrs --gas-limit 5000000 /ip4/8.129.171.72/tcp/5427 /ip4/154.221.26.130/tcp/5427
-       - lotus-miner actor set-addrs --gas-limit 5000000 /ip4/8.129.171.72/tcp/5427 /ip4/47.115.150.1/tcp/5427
+       - lotus-miner actor set-addrs --gas-limit 5000000 /ip4/x.x.x.x/tcp/5427 /ip4/x.x.x.x/tcp/5427
 
     18 - lotus-miner actor withdraw
     19 - lotus send --from=$owner --method=14 --params-json='\"[MinerBalance]000000000000000000\"' [MinerID] [MinerBalance]
@@ -271,6 +271,26 @@ do
     lotus-miner proving info
   elif [ $method -eq 15 ]; then  # lotus-miner proving deadlines
     lotus-miner proving deadlines
+  elif [ $method -eq 155 ]; then  # lotus-miner proving deadline <id>
+  {
+    while [ -z $num ]
+    do
+      read -e -p "  please input num:" num
+      if [ -z $num ]; then
+        unset num
+      elif echo $num | grep -q '[^0-9]'; then
+        unset num
+      elif [ $num -le 0 ] && [ $num -ge 65535 ]; then
+        unset num
+      fi
+    done
+    echo " "
+    
+    # tips
+    echo -e "\033[34m lotus-miner proving deadline $num \033[0m"
+    
+    lotus-miner proving deadline $num
+  }
   elif [ $method -eq 16 ]; then  # lotus-miner storage-deals set-ask --price 5200000 --verified-price 5100000 --min-piece-size 256B --max-piece-size $ENV_SECTOR_SIZE
     lotus-miner storage-deals set-ask --price 5200000 --verified-price 5100000 --min-piece-size 256B --max-piece-size $ENV_SECTOR_SIZE
   elif [ $method -eq 17 ]; then  # lotus-miner storage-deals get-ask

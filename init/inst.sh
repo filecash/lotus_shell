@@ -302,41 +302,12 @@ check_nvtop() {
 }
 
 check_cuda() {
-
   # # install cuda runfile
   rm -rf ./cuda && mkdir ./cuda && cd ./cuda
   wget https://developer.download.nvidia.com/compute/cuda/11.0.3/local_installers/cuda_11.0.3_450.51.06_linux.run
   sudo sh cuda_11.0.3_450.51.06_linux.run
   rm ./cuda_11.0.3_450.51.06_linux.run
   cd .. && rm -rf ./cuda 
-
-  # # install cuda local
-  # rm -rf ./cuda && mkdir ./cuda && cd ./cuda
-  # if [ -f /etc/apt/preferences.d/cuda-repository-pin-600 ]; then
-  #   sudo rm -rf /etc/apt/preferences.d/cuda-repository-pin-600
-  # fi
-  # wget -c https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-ubuntu1804.pin 
-  # sudo mv cuda-ubuntu1804.pin /etc/apt/preferences.d/cuda-repository-pin-600
-  # wget -c https://developer.download.nvidia.com/compute/cuda/11.0.3/local_installers/cuda-repo-ubuntu1804-11-0-local_11.0.3-450.51.06-1_amd64.deb
-  # sudo dpkg -i cuda-repo-ubuntu1804-11-0-local_11.0.3-450.51.06-1_amd64.deb
-  # sudo apt-key add /var/cuda-repo-ubuntu1804-11-0-local/7fa2af80.pub
-  # sudo apt-get update
-  # sudo apt-get -y install cuda
-  # rm ./cuda-repo-ubuntu1804-11-0-local_11.0.3-450.51.06-1_amd64.deb
-  # cd .. && rm -rf ./cuda 
-  
-  # # install cuda network
-  # rm -rf ./cuda && mkdir ./cuda && cd ./cuda
-  # if [ -f /etc/apt/preferences.d/cuda-repository-pin-600 ]; then
-  #   sudo rm -rf /etc/apt/preferences.d/cuda-repository-pin-600
-  # fi
-  # wget -c https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-ubuntu1804.pin
-  # sudo mv cuda-ubuntu1804.pin /etc/apt/preferences.d/cuda-repository-pin-600
-  # sudo apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub
-  # sudo add-apt-repository "deb http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/ /"
-  # sudo apt-get update
-  # sudo apt-get -y install cuda
-  # cd .. && rm -rf ./cuda 
 }
 
 check_ssh

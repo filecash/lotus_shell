@@ -1,9 +1,6 @@
 #!/bin/bash
 
 unset all_proxy http_proxy https_proxy
-#export all_proxy=http://192.168.0.8:10809/
-#export http_proxy=http://192.168.0.8:10809/
-#export https_proxy=http://192.168.0.8:10809/
 
 # ENV_LOG_DIR  *.sh
 export ENV_LOG_DIR=$(cd `dirname $0`; pwd)
@@ -11,6 +8,7 @@ if [ ! -d $ENV_LOG_DIR ]; then
   mkdir -p $ENV_LOG_DIR
 fi
 
+unset ENV_LOTUS_BIN  ENV_LOTUS_ROOT  ENV_LOTUS_NetWORK  ENV_SECTOR_SIZE  ENV_LOTUS_WORKER_PORT 
 # ENV_LOTUS_BIN  ENV_LOTUS_ROOT  ENV_LOTUS_NetWORK  ENV_SECTOR_SIZE  ENV_LOTUS_WORKER_PORT 
 source $ENV_LOG_DIR/env_lotus
 
@@ -234,7 +232,7 @@ source $ENV_LOG_DIR/common.sh
 # banner
 echo -e "\033[44;37m                                                                                           \033[0m"
 echo -e "\033[44;37m                                     lotus shell                                           \033[0m"
-echo -e "\033[44;37m                                                       -- Powered  by gongming             \033[0m"
+echo -e "\033[44;37m                                                       -- Powered  by  fic                 \033[0m"
 echo -e "\033[44;37m                                                                                           \033[0m"
 echo " "
 echo -e "\033[31m TIPS:\033[0m\033[34m LOTUS_BIN is \033[0m\033[31m$ENV_LOTUS_BIN \033[0m"
