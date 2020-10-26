@@ -37,7 +37,7 @@ if [ -z $1 ]; then ## daemon
     echo -e "\033[31m ${EXE_LOTUS} daemon is exist. \033[0m"
   fi
   echo " "
-else if [ "$1" == "kill" ]; then ## daemon stop
+elif [ "$1" == "kill" ]; then ## daemon stop
   check_pid_exist "${EXE_LOTUS} daemon"
   if [ $pid -eq 1 ]; then
     # log

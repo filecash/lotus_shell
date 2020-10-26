@@ -38,7 +38,7 @@ if [ -z $1 ]; then ## run
     echo -e "\033[31m ${EXE_LOTUS_MINER} run is exist. \033[0m"
   fi
   echo " "
-else if [ "$1" == "kill" ]; then ## stop
+elif [ "$1" == "kill" ]; then ## stop
   check_pid_exist "${EXE_LOTUS_MINER} run"
   if [ $pid -eq 1 ]; then
     # log
@@ -53,7 +53,7 @@ else if [ "$1" == "kill" ]; then ## stop
     echo -e "\033[31m ${EXE_LOTUS_MINER} run is not exist. \033[0m"
   fi
   echo " "
-else if [ "$1" == "store" ]; then ## storage attach --store
+elif [ "$1" == "store" ]; then ## storage attach --store
   if [ -f "$LOTUS_MINER_STORE_PATH/sectorstore.json" ]; then
     echo -e "\033[31m ERROR: \033[0m\033[34m $LOTUS_MINER_STORE_PATH is already initialized. \033[0m"
     exit
