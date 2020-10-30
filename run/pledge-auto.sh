@@ -4,6 +4,8 @@
 
 count=10000      # count
 
+lotus-miner actor withdraw
+
 ## interval=600    # sec    $1
 if [ -z $1 ]; then 
   interval=600
@@ -42,7 +44,7 @@ if [ $pid -le 2 ]; then
     num_p2=`lotus-miner sealing jobs |grep PC2 |wc -l`
     num_p1=`lotus-miner sealing jobs |grep PC1 |wc -l`
     num_ap=`lotus-miner sealing jobs |grep AP |wc -l`
-    num=`expr $num_p1 + $num_ap`
+    num=`expr $num_p1 + $num_ap + $num_c2`
     
     echo "$num_p1 + $num_ap = $num < $limit < $processor"
     if [ "$num" -lt "$limit" ] && [ "$num" -lt "$processor" ]; then
