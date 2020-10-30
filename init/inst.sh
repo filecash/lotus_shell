@@ -1,5 +1,7 @@
 #!/bin/bash
 
+ENV_LOTUS_ROOT=/mnt
+
 #rm -rf /usr/local/bin/pause
 if [ ! -f "/usr/local/bin/pause" ]; then 
   sudo echo "#! /bin/bash
