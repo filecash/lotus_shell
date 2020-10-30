@@ -38,8 +38,8 @@ if [ -z $ENV_LOTUS_ROOT ]; then
     do
       read -e -p '  please input lotus_root:' lotus_root
       if [ -z $lotus_root ]; then
-        #lotus_root=/mnt
-        lotus_root=$(cd `dirname $0`; pwd)
+        lotus_root=/mnt
+        #lotus_root=$(cd `dirname $0`; pwd)
       fi
     done
     #echo ' '
