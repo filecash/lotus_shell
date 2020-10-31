@@ -2,6 +2,8 @@
 
 des_pass="password"
 
+source $ENV_LOG_DIR/env_lotus
+
 #rm -rf /usr/local/bin/pause
 if [ ! -f "/usr/local/bin/pause" ]; then 
   sudo echo "#! /bin/bash
@@ -38,11 +40,11 @@ do
       0 - lspci |grep -i vga
       1 - nvidia-smi -q |grep 'Product Name' |awk -F : '{print \$2}'
       2 - ls -lhrt /usr/local/bin
-      3 - ls -lhrt /mnt/worker/cache
-      4 - df -h /mnt/worker;du -sh /mnt/worker
-      5 - /bin/bash /mnt/logs/5.worker-ap.sh
-      6 - /bin/bash /mnt/logs/5.worker-p1.sh
-      7 - /bin/bash /mnt/logs/5.worker-p2c.sh
+      3 - ls -lhrt $ENV_LOTUS_ROOT/worker/cache
+      4 - df -h $ENV_LOTUS_ROOT/worker;du -sh $ENV_LOTUS_ROOT/worker
+      5 - /bin/bash $ENV_LOTUS_ROOT/logs/5.worker-ap.sh
+      6 - /bin/bash $ENV_LOTUS_ROOT/logs/5.worker-p1.sh
+      7 - /bin/bash $ENV_LOTUS_ROOT/logs/5.worker-p2c.sh
       8 - ps aux |grep lotus |grep -v grep
       9 - pid=\`ps aux |grep lotus |grep -v grep |awk '{print \$2}'\`;kill -9 \$pid;
       
@@ -83,15 +85,15 @@ do
         elif [ $method -eq 2 ]; then 
           cmd='ls -lhrt /usr/local/bin'
         elif [ $method -eq 3 ]; then 
-          cmd='ls -lhrt /mnt/worker/cache'
+          cmd='ls -lhrt $ENV_LOTUS_ROOT/worker/cache'
         elif [ $method -eq 4 ]; then 
-          cmd='df -h /mnt/worker;du -sh /mnt/worker'
+          cmd='df -h $ENV_LOTUS_ROOT/worker;du -sh $ENV_LOTUS_ROOT/worker'
         elif [ $method -eq 5 ]; then 
-          cmd='bash /mnt/logs/5.worker-ap.sh'
+          cmd='bash $ENV_LOTUS_ROOT/logs/5.worker-ap.sh'
         elif [ $method -eq 6 ]; then 
-          cmd='bash /mnt/logs/5.worker-p1.sh'
+          cmd='bash $ENV_LOTUS_ROOT/logs/5.worker-p1.sh'
         elif [ $method -eq 7 ]; then 
-          cmd='bash /mnt/logs/5.worker-p2c.sh'
+          cmd='bash $ENV_LOTUS_ROOT/logs/5.worker-p2c.sh'
         elif [ $method -eq 8 ]; then 
           cmd='ps aux |grep lotus |grep -v grep'
         elif [ $method -eq 9 ]; then 
