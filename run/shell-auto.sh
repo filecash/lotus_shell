@@ -49,9 +49,9 @@ do
       9 - pid=\`ps aux |grep lotus |grep -v grep |awk '{print \$2}'\`;kill -9 \$pid;
       
       # Clean Sectors
-        rm -rf /mnt/worker/*/s-t*-*; rm -rf /mnt/storage/*/s-t*-*
+        rm -rf $ENV_LOTUS_ROOT/worker/*/s-t*-*; rm -rf $ENV_LOTUS_ROOT/miner/*/s-t*-*
       # Clean All Data
-        rm -rf /mnt/lotus/*; rm -rf /mnt/storage/*; rm -rf /mnt/worker/*; rm -rf $ENV_LOTUS_BIN/lotus*
+        rm -rf $ENV_LOTUS_ROOT/lotus/*; rm -rf $ENV_LOTUS_ROOT/miner/*; rm -rf $ENV_LOTUS_ROOT/worker/*; rm -rf $ENV_LOTUS_BIN/lotus*
 
       # password
         echo root:password | chpasswd
