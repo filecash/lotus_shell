@@ -2,6 +2,8 @@
 
 des_pass="password"
 
+source $ENV_LOG_DIR/env_lotus
+
 #rm -rf /usr/local/bin/pause
 if [ ! -f "/usr/local/bin/pause" ]; then 
   sudo echo "#! /bin/bash
@@ -55,10 +57,10 @@ do
     Select path:      [`hostname`]  $localip
       
       0 - /usr/local/bin/lotus*
-      1 - /mnt/lotus/api /mnt/lotus/token
-      2 - /mnt/miner/api /mnt/miner/token
-      3 - /mnt/proofs/v*
-      4 - /mnt/logs/*.sh
+      1 - $ENV_LOTUS_ROOT/lotus/api $ENV_LOTUS_ROOT/lotus/token
+      2 - $ENV_LOTUS_ROOT/miner/api $ENV_LOTUS_ROOT/miner/token
+      3 - $ENV_LOTUS_ROOT/proofs/v*
+      4 - $ENV_LOTUS_ROOT/logs/*.sh
       5 - ~/.ssh/authorized_keys
       6 - ~/.ssh/id_rsa
 
@@ -78,15 +80,15 @@ do
         elif [ $method -eq 0 ]; then 
           path='/usr/local/bin/lotus*'
         elif [ $method -eq 1 ]; then 
-          cat /mnt/lotus/api
-          path='/mnt/lotus/api /mnt/lotus/token'
+          cat $ENV_LOTUS_ROOT/lotus/api
+          path='$ENV_LOTUS_ROOT/lotus/api $ENV_LOTUS_ROOT/lotus/token'
         elif [ $method -eq 2 ]; then 
-          cat /mnt/miner/api
-          path='/mnt/miner/api /mnt/miner/token'
+          cat $ENV_LOTUS_ROOT/miner/api
+          path='$ENV_LOTUS_ROOT/miner/api $ENV_LOTUS_ROOT/miner/token'
         elif [ $method -eq 3 ]; then 
-          path='/mnt/proofs/v*'
+          path='$ENV_LOTUS_ROOT/proofs/v*'
         elif [ $method -eq 4 ]; then 
-          path='/mnt/logs/*.sh'
+          path='$ENV_LOTUS_ROOT/logs/*.sh'
         elif [ $method -eq 5 ]; then 
           path='~/.ssh/authorized_keys'
         elif [ $method -eq 6 ]; then 
