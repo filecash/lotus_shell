@@ -110,6 +110,7 @@ do
   fi
   
   # 获取拷贝目录
+  path=`echo $path |awk -F ' ' '{print $1}'`
   topath="${path%/*}" #获取目录
   if [ "$topath" == "$path" ] || [ "$topath" == "*" ]; then
     topath=`pwd`
