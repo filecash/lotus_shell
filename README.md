@@ -2,7 +2,8 @@
 lotus run script
 
 ## lotus_shell script
----
+```
+===
   |--init - 安装环境
       |--init.sh       - 初始化运行环境
       |--init-dev.sh   - 初始化编译环境
@@ -13,7 +14,8 @@ lotus run script
       |--5.worker-***.sh - 启动lotus-worker
       |--pledge-auto.sh  - 自动发任务脚本
       |--lotus.sh      - 全功能运维脚本 全功能运维脚本 全功能运维脚本
-      
+```
+
 ## lotus集群部署详细步骤
 - 1.启动lotus节点，修改.lotus/config.toml文件，将【#  ListenAddress = "/ip4/127.0.0.1/tcp/1234/http"】里面的127.0.0.1替换为lotus节点的IP；
 - 2.复制lotus节点机器下面的 .lotus/api .lotus/token 两个文件到lotus-miner矿工机器下面的.lotus目录；
