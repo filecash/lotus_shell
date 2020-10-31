@@ -39,7 +39,7 @@ do
       
       0 - lspci |grep -i vga
       1 - nvidia-smi -q |grep 'Product Name' |awk -F : '{print \$2}'
-      2 - ls -lhrt /usr/local/bin
+      2 - ls -lhrt $ENV_LOTUS_BIN
       3 - ls -lhrt $ENV_LOTUS_ROOT/worker/cache
       4 - df -h $ENV_LOTUS_ROOT/worker;du -sh $ENV_LOTUS_ROOT/worker
       5 - /bin/bash $ENV_LOTUS_ROOT/logs/5.worker-ap.sh
@@ -51,7 +51,7 @@ do
       # Clean Sectors
         rm -rf /mnt/worker/*/s-t*-*; rm -rf /mnt/storage/*/s-t*-*
       # Clean All Data
-        rm -rf /mnt/lotus/*; rm -rf /mnt/storage/*; rm -rf /mnt/worker/*; rm -rf /usr/local/bin/lotus*
+        rm -rf /mnt/lotus/*; rm -rf /mnt/storage/*; rm -rf /mnt/worker/*; rm -rf $ENV_LOTUS_BIN/lotus*
 
       # password
         echo root:password | chpasswd
@@ -83,7 +83,7 @@ do
         elif [ $method -eq 1 ]; then 
           cmd="nvidia-smi -q |grep 'Product Name' "
         elif [ $method -eq 2 ]; then 
-          cmd='ls -lhrt /usr/local/bin'
+          cmd='ls -lhrt $ENV_LOTUS_BIN'
         elif [ $method -eq 3 ]; then 
           cmd='ls -lhrt $ENV_LOTUS_ROOT/worker/cache'
         elif [ $method -eq 4 ]; then 
