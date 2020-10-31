@@ -2,9 +2,7 @@
 
 #> nohup bash pledge-auto.sh 1200 20 >> ./auto-pledge.log 2>&1 &
 
-count=10000      # count
-
-lotus-miner actor withdraw
+count=100000       # count
 
 ## interval=600    # sec    $1
 if [ -z $1 ]; then 
@@ -33,10 +31,10 @@ if [ $pid -le 2 ]; then
   
   # tips
   echo -e "\033[34m nohup bash pledge-auto.sh >> ./auto-pledge.log 2>&1 & \033[0m"
-
+  
   processor=$(grep 'processor' /proc/cpuinfo |sort |uniq |wc -l)
   echo -e "\033[34m processor = $processor \033[0m" 
-
+  
   for i in $(seq ${count}); 
   do 
     
@@ -44,11 +42,19 @@ if [ $pid -le 2 ]; then
     num_p2=`lotus-miner sealing jobs |grep PC2 |wc -l`
     num_p1=`lotus-miner sealing jobs |grep PC1 |wc -l`
     num_ap=`lotus-miner sealing jobs |grep AP |wc -l`
-    num=`expr $num_p1 + $num_ap + $num_c2`
     
-    echo "$num_p1 + $num_ap = $num < $limit < $processor"
-    if [ "$num" -lt "$limit" ] && [ "$num" -lt "$processor" ]; then
+    #num=`expr $num_ap + $num_p1 + $num_p2 + $num_c2`
+    #echo "$num_ap + $num_p1 + $num_p2 + $num_c2 = $num < $limit    ap: $num_ap < $processor"
+    #num=`expr $num_ap + $num_p1 + $num_c2`
+    #echo "$num_ap + $num_p1 + $num_c2 = $num < $limit    ap: $num_ap < $processor"
+    #num=`expr $num_ap + $num_p1 + $num_p2`
+    #echo "$num_ap + $num_p1 + $num_p2 = $num < $limit    ap: $num_ap < $processor"
+    num=`expr $num_ap + $num_p1`
+    echo "$num_ap + $num_p1 = $num < $limit    ap: $num_ap < $processor"
+    
+    if [ "$num" -lt "$limit" ] && [ "$num_ap" -lt "$processor" ]; then
       echo "  `date`  pledge all ${count} run $i "
+      lotus-miner actor withdraw
       lotus-miner sectors pledge
     else
       echo "  `date`  no task " 
