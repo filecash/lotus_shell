@@ -14,6 +14,9 @@ source $ENV_LOG_DIR/env_lotus
 
 # ENV_LOTUS_BIN  lotus lotus-miner lotus-worker  #export ENV_LOTUS_BIN=/usr/local/bin
 if [ -z $ENV_LOTUS_BIN ]; then
+  # tips
+  echo -e "\033[34m ENV_LOTUS_BIN=/usr/local/bin   (default) \033[0m"
+  
   while [ -z $lotus_bin ]
   do
     #lotus_bin
@@ -26,11 +29,16 @@ if [ -z $ENV_LOTUS_BIN ]; then
     done
     #echo ' '
     echo "export ENV_LOTUS_BIN=$lotus_bin" >> $ENV_LOG_DIR/env_lotus
+    # tips
+    echo -e "\033[34m ENV_LOTUS_BIN=$lotus_bin \033[0m"
   done
   echo " "
 fi
 # ENV_LOTUS_ROOT  .lotus .lotusminer .lotusworker  #export ENV_LOTUS_ROOT=/mnt
 if [ -z $ENV_LOTUS_ROOT ]; then
+  # tips
+  echo -e "\033[34m ENV_LOTUS_ROOT=/mnt   (default) \033[0m"
+  
   while [ -z $lotus_root ]
   do
     #lotus_root
@@ -44,6 +52,8 @@ if [ -z $ENV_LOTUS_ROOT ]; then
     done
     #echo ' '
     echo "export ENV_LOTUS_ROOT=$lotus_root" >> $ENV_LOG_DIR/env_lotus
+    # tips
+    echo -e "\033[34m ENV_LOTUS_ROOT=$lotus_root \033[0m"
   done
   echo " "
 fi
@@ -232,7 +242,7 @@ source $ENV_LOG_DIR/common.sh
 # banner
 echo -e "\033[44;37m                                                                                           \033[0m"
 echo -e "\033[44;37m                                     lotus shell                                           \033[0m"
-echo -e "\033[44;37m                                                       -- Powered  by  fic                 \033[0m"
+echo -e "\033[44;37m                                                       -- Powered  by  filecash            \033[0m"
 echo -e "\033[44;37m                                                                                           \033[0m"
 echo " "
 echo -e "\033[31m TIPS:\033[0m\033[34m LOTUS_BIN is \033[0m\033[31m$ENV_LOTUS_BIN \033[0m"
