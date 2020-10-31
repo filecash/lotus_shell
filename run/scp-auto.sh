@@ -56,7 +56,7 @@ do
     echo -e "\033[34m 
     Select path:      [`hostname`]  $localip
       
-      0 - /usr/local/bin/lotus*
+      0 - $ENV_LOTUS_BIN/lotus*
       1 - $ENV_LOTUS_ROOT/lotus/api $ENV_LOTUS_ROOT/lotus/token
       2 - $ENV_LOTUS_ROOT/miner/api $ENV_LOTUS_ROOT/miner/token
       3 - $ENV_LOTUS_ROOT/proofs/v*
@@ -78,7 +78,7 @@ do
         if [ -z $method ]; then
           unset path
         elif [ $method -eq 0 ]; then 
-          path='/usr/local/bin/lotus*'
+          path='$ENV_LOTUS_BIN/lotus*'
         elif [ $method -eq 1 ]; then 
           cat $ENV_LOTUS_ROOT/lotus/api
           path='$ENV_LOTUS_ROOT/lotus/api $ENV_LOTUS_ROOT/lotus/token'
