@@ -545,17 +545,17 @@ do
     ${EXE_LOTUS_MINER} storage-deals get-ask
   elif [ $method -eq 18 ]; then  # ${EXE_LOTUS_MINER} actor withdraw [MinerBalance]
   {
-    while [ -z $balance ]
-    do
+    #while [ -z $balance ]
+    #do
       read -e -p "  please input send_balance:" balance
       if [ -z $balance ]; then
         echo "Withdraw all balances"
       elif echo $balance | grep -q '[^0-9]'; then
         unset balance
-      elif [ $balance -le 0 ] && [ $balance -ge 65535 ]; then
-        unset balance
+      #elif [ $balance -le 0 ] && [ $balance -ge 65535 ]; then
+      #  unset balance
       fi
-    done
+    #done
     echo " "
 
     #info
