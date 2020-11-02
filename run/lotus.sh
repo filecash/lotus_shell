@@ -161,7 +161,7 @@ do
     
     check_pid_exist "${EXE_LOTUS_WORKER} run"
     if [ $pid -gt 0 ]; then
-      watch -n 10 -d ls -lhrt "$LOTUS_WORKER_PATH/$monitor_path/$sector_path && du -sh $LOTUS_WORKER_PATH/$monitor_path/$sector_path"
+      watch -n 10 -d "ls -lhrt $LOTUS_WORKER_PATH/$monitor_path/$sector_path && du -sh $LOTUS_WORKER_PATH/$monitor_path/$sector_path"
     fi
   }
   elif [ $method -eq 3 ]; then  # watch -n 10 'ls -lhrt $LOTUS_MINER_PATH/*/s-* && du -sh $LOTUS_MINER_PATH/*'
