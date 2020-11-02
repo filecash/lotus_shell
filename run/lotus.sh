@@ -549,7 +549,7 @@ do
     do
       read -e -p "  please input send_balance:" balance
       if [ -z $balance ]; then
-        unset balance
+        echo "Withdraw all balances"
       elif echo $balance | grep -q '[^0-9]'; then
         unset balance
       elif [ $balance -le 0 ] && [ $balance -ge 65535 ]; then
