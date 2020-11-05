@@ -2,7 +2,7 @@
 
 des_pass="password"
 
-source $ENV_LOG_DIR/env_lotus
+source ./env_lotus
 
 #rm -rf /usr/local/bin/pause
 if [ ! -f "/usr/local/bin/pause" ]; then 
@@ -78,17 +78,17 @@ do
         if [ -z $method ]; then
           unset path
         elif [ $method -eq 0 ]; then 
-          path='$ENV_LOTUS_BIN/lotus*'
+          path="$ENV_LOTUS_BIN/lotus*"
         elif [ $method -eq 1 ]; then 
           cat $ENV_LOTUS_ROOT/lotus/api
-          path='$ENV_LOTUS_ROOT/lotus/api $ENV_LOTUS_ROOT/lotus/token'
+          path="$ENV_LOTUS_ROOT/lotus/api $ENV_LOTUS_ROOT/lotus/token"
         elif [ $method -eq 2 ]; then 
           cat $ENV_LOTUS_ROOT/miner/api
-          path='$ENV_LOTUS_ROOT/miner/api $ENV_LOTUS_ROOT/miner/token'
+          path="$ENV_LOTUS_ROOT/miner/api $ENV_LOTUS_ROOT/miner/token"
         elif [ $method -eq 3 ]; then 
-          path='$ENV_LOTUS_ROOT/proofs/v*'
+          path="$ENV_LOTUS_ROOT/proofs/v*"
         elif [ $method -eq 4 ]; then 
-          path='$ENV_LOTUS_ROOT/logs/*.sh'
+          path="$ENV_LOTUS_ROOT/logs/*.sh"
         elif [ $method -eq 5 ]; then 
           path='~/.ssh/authorized_keys'
         elif [ $method -eq 6 ]; then 
