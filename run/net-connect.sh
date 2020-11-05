@@ -4,14 +4,12 @@
 
 if [ -z $1 ]; then 
   bootstrap="
-/dns4/bootstrap1.testnet.filfox.info/tcp/16666/p2p/12D3KooW9uSxsSh3qwAPxSwwRDVqTTPg8HTBthujVYFXy7Dizb6Q
-/dns4/bootstrap2.testnet.filfox.info/tcp/16666/p2p/12D3KooWKths1fzziHsmeMdTdV7dgB9DzoeiGVSwcW2HCygztH9e
-/dns4/bootstrap-0.testnet.fildev.network/tcp/1347/p2p/12D3KooWJTUBUjtzWJGWU1XSiY21CwmHaCNLNYn2E7jqHEHyZaP7
-/dns4/bootstrap-1.testnet.fildev.network/tcp/1347/p2p/12D3KooW9yeKXha4hdrJKq74zEo99T8DhriQdWNoojWnnQbsgB3v
-/dns4/bootstrap-2.testnet.fildev.network/tcp/1347/p2p/12D3KooWCrx8yVG9U9Kf7w8KLN3Edkj5ZKDhgCaeMqQbcQUoB6CT
-/dns4/bootstrap-4.testnet.fildev.network/tcp/1347/p2p/12D3KooWPkL9LrKRQgHtq7kn9ecNhGU9QaziG8R5tX8v9v7t3h34
-/dns4/bootstrap-3.testnet.fildev.network/tcp/1347/p2p/12D3KooWKYSsbpgZ3HAjax5M1BXCwXLa6gVkUARciz7uN3FNtr7T
-/dns4/bootstrap-5.testnet.fildev.network/tcp/1347/p2p/12D3KooWQYzqnLASJAabyMpPb1GcWZvNSe7JDcRuhdRqonFoiK9W
+/dns4/a1.filecoincash.com/tcp/8911/p2p/12D3KooWMAQi4qTg69a683R1Dvz2XzKhjTCHq8uuwd5PkhM45vff
+/dns4/a2.filecoincash.com/tcp/8911/p2p/12D3KooWEhptW8M7NDR4Um9fgVVck42YoTbHDBE3qF3iLonCkPn9
+/dns4/a3.filecoincash.com/tcp/8911/p2p/12D3KooWB2Pim8E1aj9DhcccJSDk93pJYpmm5LAtuinLXVVttYZo
+/dns4/a5.filecoincash.com/tcp/8911/p2p/12D3KooWJibEA5yyFxPq2NHkP9aaiPLfMTbXhUqtRtwbTU4gMaBB
+/dns4/a6.filecoincash.com/tcp/8911/p2p/12D3KooWFE5TZk8BANmY6w3WXD2gPfbfkaRnZNFtao1unaXYg47E
+/dns4/a8.filecoincash.com/tcp/8911/p2p/12D3KooWADZTsmBWQuZQjyruSpVNoX4XB1JTXFWtsVMz8bwhtGUr
 "
 else 
   bootstrap="$1"
