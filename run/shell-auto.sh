@@ -2,7 +2,7 @@
 
 des_pass="password"
 
-source $ENV_LOG_DIR/env_lotus
+source ./env_lotus
 
 #rm -rf /usr/local/bin/pause
 if [ ! -f "/usr/local/bin/pause" ]; then 
@@ -83,17 +83,17 @@ do
         elif [ $method -eq 1 ]; then 
           cmd="nvidia-smi -q |grep 'Product Name' "
         elif [ $method -eq 2 ]; then 
-          cmd='ls -lhrt $ENV_LOTUS_BIN'
+          cmd="ls -lhrt $ENV_LOTUS_BIN"
         elif [ $method -eq 3 ]; then 
-          cmd='ls -lhrt $ENV_LOTUS_ROOT/worker/cache'
+          cmd="ls -lhrt $ENV_LOTUS_ROOT/worker/cache"
         elif [ $method -eq 4 ]; then 
-          cmd='df -h $ENV_LOTUS_ROOT/worker;du -sh $ENV_LOTUS_ROOT/worker'
+          cmd="df -h $ENV_LOTUS_ROOT/worker;du -sh $ENV_LOTUS_ROOT/worker"
         elif [ $method -eq 5 ]; then 
-          cmd='bash $ENV_LOTUS_ROOT/logs/5.worker-ap.sh'
+          cmd="bash $ENV_LOTUS_ROOT/logs/5.worker-ap.sh"
         elif [ $method -eq 6 ]; then 
-          cmd='bash $ENV_LOTUS_ROOT/logs/5.worker-p1.sh'
+          cmd="bash $ENV_LOTUS_ROOT/logs/5.worker-p1.sh"
         elif [ $method -eq 7 ]; then 
-          cmd='bash $ENV_LOTUS_ROOT/logs/5.worker-p2c.sh'
+          cmd="bash $ENV_LOTUS_ROOT/logs/5.worker-p2c.sh"
         elif [ $method -eq 8 ]; then 
           cmd='ps aux |grep lotus |grep -v grep'
         elif [ $method -eq 9 ]; then 
