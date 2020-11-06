@@ -34,7 +34,11 @@ if [ ! -z $1 ]; then
 else
   max_num=`lotus-worker run -h|grep precommit1max|wc -l`
   if (($max_num == 1)); then
-    max_argu="--precommit1max=30"
+    diskAvailable_mb=`df -m $LOTUS_WORKER_PATH |awk 'NR==2{print $4}'`  ## MiB
+    diskAvailable_gb=`expr $diskAvailable_mb / 1024`  ## GiB
+    task_num=`expr $diskAvailable_gb / 60`  ## task_number
+    
+    max_argu="--precommit1max=$task_num"
   fi
 fi
 
