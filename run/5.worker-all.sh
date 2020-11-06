@@ -36,8 +36,13 @@ else
   if (($max_num == 1)); then
     diskAvailable_mb=`df -m $LOTUS_WORKER_PATH |awk 'NR==2{print $4}'`  ## MiB
     diskAvailable_gb=`expr $diskAvailable_mb / 1024`  ## GiB
-    task_num=`expr $diskAvailable_gb / 60`  ## task_number
-    
+    diskAvailable_num=`expr $diskAvailable_gb / 60`  ## diskAvailable_num
+    processor=$(grep 'processor' /proc/cpuinfo |sort |uniq |wc -l)  ## processor
+    if [ "$processor" -lt "$diskAvailable_num" ]; then 
+      task_num=$processor
+    else
+      task_num=$diskAvailable_num
+    fi
     max_argu="--precommit1max=$task_num"
   fi
 fi
