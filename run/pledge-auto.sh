@@ -59,7 +59,9 @@ if [ $pid -le 2 ]; then
     else
       echo "  `date`  no task " 
     fi
-    
+    if [ "$count" -lt "10" ]; then 
+      count=100000
+    fi
     sleep ${interval}
   done
 
