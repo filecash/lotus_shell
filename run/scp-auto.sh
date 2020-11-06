@@ -130,6 +130,7 @@ do
       read -e -p "  please input ip segment: " segment
       if [ -z $segment ]; then
         segment=`ip addr show |awk -F '[ /]+' '$0~/inet/ && $0~/brd/ {print $3}' |awk -F "." '{print $3}'`
+        echo $segment
       elif echo $segment |grep -q '[^0-9]'; then
         unset segment
       elif [ $segment -le 0 ] && [ $segment -ge 255 ]; then
