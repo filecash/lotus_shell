@@ -274,6 +274,7 @@ do
       do 
         echo "    pledge $worker all $num run $i"
         ${EXE_LOTUS_MINER} sectors pledge $worker
+        sleep 2
       done
     fi
   }
