@@ -51,7 +51,7 @@ check_pid_exist "${EXE_LOTUS_WORKER} run --listen=$localip:$ENV_LOTUS_WORKER_POR
 if [ $pid -le 0 ]; then
   
   # log
-  export marklog="worker-$ENV_SECTOR_SIZE-p1.log"
+  export marklog="worker-$ENV_SECTOR_SIZE-app1.log"
   # backup log
   if [ -f "$marklog" ]; then 
     mv $marklog $marklog.$localip.$marktime.log
