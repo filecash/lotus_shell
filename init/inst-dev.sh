@@ -291,7 +291,8 @@ check_nvtop() {
       apt install libcurl4 cmake libncurses5-dev libncursesw5-dev -y
       git clone https://github.com/Syllo/nvtop.git
       sudo mkdir -p ./nvtop/build && cd ./nvtop/build
-      cmake .. && make && sudo make install
+      cmake .. -DNVML_RETRIEVE_HEADER_ONLINE=True
+      make && sudo make install
       cd ../..
       rm -rf ./nvtop
     fi
