@@ -576,7 +576,7 @@ do
       read -e -p "  please input minerid:" minerid
       if [ -z $minerid ]; then
         minerid=`lotus-miner info |grep "Miner" |awk 'NR==1 {print $2}'`
-      elif ! echo $minerid | grep -q '^t0[0-9]\{4,8\}$' ; then
+      elif ! echo $minerid | grep -q '^f0[0-9]\{4,8\}$' ; then
         unset minerid
       fi
     done
@@ -609,7 +609,7 @@ do
       read -e -p "  please input minerid:" minerid
       if [ -z $minerid ]; then
         minerid=`lotus-miner info |grep "Miner" |awk 'NR==1 {print $2}'`
-      elif ! echo $minerid | grep -q '^t0[0-9]\{4,8\}$' ; then
+      elif ! echo $minerid | grep -q '^f0[0-9]\{4,8\}$' ; then
         unset minerid
       fi
     done
