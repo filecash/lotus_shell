@@ -55,8 +55,10 @@ do
 
     25 - ${EXE_LOTUS} net listen
     26 - ${EXE_LOTUS} net peers && ${EXE_LOTUS} net peers|wc -l
+    266 - ${EXE_LOTUS} net scores && ${EXE_LOTUS} net scores|wc -l
     27 - ${EXE_LOTUS_MINER} net listen
     28 - ${EXE_LOTUS_MINER} net peers && ${EXE_LOTUS_MINER} net peers|wc -l
+    288 - ${EXE_LOTUS_MINER} net scores && ${EXE_LOTUS_MINER} net scores|wc -l
     
     29 - ${EXE_LOTUS} mpool pending --local |wc -l && ${EXE_LOTUS} mpool pending |wc -l
     30 - ${EXE_LOTUS} state get-deal [DealID]
@@ -669,10 +671,14 @@ do
     ${EXE_LOTUS} net listen
   elif [ $method -eq 26 ]; then  # ${EXE_LOTUS} net peers
     ${EXE_LOTUS} net peers && echo " " && ${EXE_LOTUS} net peers|wc -l
+  elif [ $method -eq 266 ]; then  # ${EXE_LOTUS} net scores
+    ${EXE_LOTUS} net scores && echo " " && ${EXE_LOTUS} net scores|wc -l
   elif [ $method -eq 27 ]; then  # ${EXE_LOTUS_MINER} net listen
     ${EXE_LOTUS_MINER} net listen
   elif [ $method -eq 28 ]; then  # ${EXE_LOTUS_MINER} net peers
     ${EXE_LOTUS_MINER} net peers && echo " " && ${EXE_LOTUS_MINER} net peers|wc -l
+  elif [ $method -eq 288 ]; then  # ${EXE_LOTUS_MINER} net scores
+    ${EXE_LOTUS_MINER} net scores && echo " " && ${EXE_LOTUS_MINER} net scores|wc -l
   elif [ $method -eq 29 ]; then  # ${EXE_LOTUS} mpool pending --local |wc -l && ${EXE_LOTUS} mpool pending |wc -l
     ${EXE_LOTUS} mpool pending --local |wc -l && ${EXE_LOTUS} mpool pending |wc -l
   elif [ $method -eq 30 ]; then  # ${EXE_LOTUS} state get-deal [DealID]
