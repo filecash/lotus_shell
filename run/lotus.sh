@@ -51,6 +51,7 @@ do
     22 - ${EXE_LOTUS} sync wait
     222 - ${EXE_LOTUS} sync status
     23 - ${EXE_LOTUS} chain list
+    233 - ${EXE_LOTUS} chain sethead --epoch [value]
     24 - ${EXE_LOTUS} fetch-params $ENV_SECTOR_SIZE > fetch-params.log
 
     25 - ${EXE_LOTUS} net listen
@@ -665,6 +666,27 @@ do
     ${EXE_LOTUS} sync status
   elif [ $method -eq 23 ]; then  # ${EXE_LOTUS} chain list
     ${EXE_LOTUS} chain list
+  elif [ $method -eq 233 ]; then  # ${EXE_LOTUS} chain sethead --epoch [value]
+    while [ -z $epochvalue ]
+    do
+      read -e -p "  please input sethead epoch:" epochvalue
+      if [ -z $epochvalue ]; then
+        unset epochvalue
+      elif echo $epochvalue | grep -q '[^0-9]'; then
+        unset epochvalue
+      elif [ $epochvalue -le 0 ]; then
+        unset epochvalue
+      fi
+    done
+    echo " "
+    
+    #info
+    echo -e "\033[34m  ${EXE_LOTUS} chain sethead --epoch $epochvalue \033[0m"
+    
+    check_areyousure
+    if [ $areyousure -eq 1 ]; then
+      ${EXE_LOTUS} chain sethead --epoch $epochvalue
+    fi
   elif [ $method -eq 24 ]; then  #  ${EXE_LOTUS} fetch-params $ENV_SECTOR_SIZE > fetch-params.log
      ${EXE_LOTUS} fetch-params $ENV_SECTOR_SIZE > $ENV_LOG_DIR/fetch-params.log
   elif [ $method -eq 25 ]; then  # ${EXE_LOTUS} net listen
@@ -691,7 +713,10 @@ do
       fi
     done
     #echo ' '
-
+    
+    #info
+    echo -e "\033[34m  ${EXE_LOTUS} state get-deal $deal \033[0m"
+    
     ${EXE_LOTUS} state get-deal $deal
   }
   elif [ $method -eq 31 ]; then  # ${EXE_LOTUS_MINER} storage-deals list
