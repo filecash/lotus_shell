@@ -39,13 +39,14 @@ do
     15 - ${EXE_LOTUS_MINER} proving deadlines
     155 - ${EXE_LOTUS_MINER} proving deadline <id>
     16 - ${EXE_LOTUS_MINER} storage-deals set-ask --price 5200000 --verified-price 5100000 --min-piece-size 256B --max-piece-size $ENV_SECTOR_SIZE
-    17 - ${EXE_LOTUS_MINER} storage-deals get-ask
-       - ${EXE_LOTUS_MINER} actor set-addrs --gas-limit 5000000 /ip4/x.x.x.x/tcp/5427 /ip4/x.x.x.x/tcp/5427
+    166 - ${EXE_LOTUS_MINER} storage-deals get-ask
+    17 - ${EXE_LOTUS_MINER} actor set-addrs --gas-limit 5000000 /ip4/x.x.x.x/tcp/5427 /ip4/x.x.x.x/tcp/5427
       
     18 - ${EXE_LOTUS_MINER} actor withdraw [MinerBalance]
     19 - ${EXE_LOTUS} send --from=$owner --method=14 --params-json='\"[MinerBalance]000000000000000000\"' [MinerID] [MinerBalance]
     199 - ${EXE_LOTUS} send --from=$owner [MinerID] [MinerBalance]
     20 - ${EXE_LOTUS} wallet new bls
+    200 - ${EXE_LOTUS} wallet new
     21 - ${EXE_LOTUS} wallet list
     211 - ${EXE_LOTUS_MINER} actor control list
     22 - ${EXE_LOTUS} sync wait
@@ -545,8 +546,27 @@ do
   #  lotus-miner storage-deals list |grep -A 1 Root |grep / |awk -F ':' '{print $2}' |tr -d '\"' 
   elif [ $method -eq 16 ]; then  # ${EXE_LOTUS_MINER} storage-deals set-ask --price 5200000 --verified-price 5100000 --min-piece-size 256B --max-piece-size $ENV_SECTOR_SIZE
     ${EXE_LOTUS_MINER} storage-deals set-ask --price 5200000 --verified-price 5100000 --min-piece-size 256B --max-piece-size $ENV_SECTOR_SIZE
-  elif [ $method -eq 17 ]; then  # ${EXE_LOTUS_MINER} storage-deals get-ask
+  elif [ $method -eq 166 ]; then  # ${EXE_LOTUS_MINER} storage-deals get-ask
     ${EXE_LOTUS_MINER} storage-deals get-ask
+  elif [ $method -eq 17 ]; then  # ${EXE_LOTUS_MINER} actor set-addrs --gas-limit 5000000 /ip4/x.x.x.x/tcp/5427 /ip4/x.x.x.x/tcp/5427
+  {
+    while [ -z $onlineaddr ]
+    do
+      read -e -p "  please input online addr:" onlineaddr
+      if [ -z $onlineaddr ]; then
+        unset onlineaddr
+      fi
+    done
+    echo " "
+    
+    #info
+    echo -e "\033[34m  ${EXE_LOTUS_MINER} actor set-addrs --gas-limit 5000000 $onlineaddr \033[0m"
+    
+    check_areyousure
+    if [ $areyousure -eq 1 ]; then
+      ${EXE_LOTUS_MINER} actor set-addrs --gas-limit 5000000 $onlineaddr
+    fi
+  }
   elif [ $method -eq 18 ]; then  # ${EXE_LOTUS_MINER} actor withdraw [MinerBalance]
   {
     #while [ -z $balance ]
@@ -637,6 +657,7 @@ do
     fi
   }
   elif [ $method -eq 20 ]; then  # ${EXE_LOTUS} wallet new bls
+  {
     #info
     echo -e "\033[34m  ${EXE_LOTUS} wallet new bls \033[0m"
     
@@ -644,6 +665,17 @@ do
     if [ $areyousure -eq 1 ]; then
       ${EXE_LOTUS} wallet new bls
     fi
+  }
+  elif [ $method -eq 200 ]; then  # ${EXE_LOTUS} wallet new
+  {
+    #info
+    echo -e "\033[34m  ${EXE_LOTUS} wallet new \033[0m"
+    
+    check_areyousure
+    if [ $areyousure -eq 1 ]; then
+      ${EXE_LOTUS} wallet new
+    fi
+  }
   elif [ $method -eq 21 ]; then  # ${EXE_LOTUS} wallet list
   {
     ${EXE_LOTUS} wallet list
@@ -667,6 +699,7 @@ do
   elif [ $method -eq 23 ]; then  # ${EXE_LOTUS} chain list
     ${EXE_LOTUS} chain list
   elif [ $method -eq 233 ]; then  # ${EXE_LOTUS} chain sethead --epoch [value]
+  {
     while [ -z $epochvalue ]
     do
       read -e -p "  please input sethead epoch:" epochvalue
@@ -687,6 +720,7 @@ do
     if [ $areyousure -eq 1 ]; then
       ${EXE_LOTUS} chain sethead --epoch $epochvalue
     fi
+  }
   elif [ $method -eq 24 ]; then  #  ${EXE_LOTUS} fetch-params $ENV_SECTOR_SIZE > fetch-params.log
      ${EXE_LOTUS} fetch-params $ENV_SECTOR_SIZE > $ENV_LOG_DIR/fetch-params.log
   elif [ $method -eq 25 ]; then  # ${EXE_LOTUS} net listen
