@@ -36,6 +36,7 @@ do
     13 - ${EXE_LOTUS_MINER} sectors remove --really-do-it <sector>
     
     14 - ${EXE_LOTUS_MINER} proving info
+    144 - ${EXE_LOTUS_MINER} proving faults
     15 - ${EXE_LOTUS_MINER} proving deadlines
     155 - ${EXE_LOTUS_MINER} proving deadline <id>
     16 - ${EXE_LOTUS_MINER} storage-deals set-ask --price 5200000 --verified-price 5100000 --min-piece-size 256B --max-piece-size $ENV_SECTOR_SIZE
@@ -516,6 +517,8 @@ do
   }
   elif [ $method -eq 14 ]; then  # ${EXE_LOTUS_MINER} proving info
     ${EXE_LOTUS_MINER} proving info
+  elif [ $method -eq 144 ]; then  # ${EXE_LOTUS_MINER} proving faults
+    ${EXE_LOTUS_MINER} proving faults
   elif [ $method -eq 15 ]; then  # ${EXE_LOTUS_MINER} proving deadlines
     ${EXE_LOTUS_MINER} proving deadlines
   elif [ $method -eq 155 ]; then  # ${EXE_LOTUS_MINER} proving deadline <id>
@@ -692,6 +695,27 @@ do
   }
   elif [ $method -eq 211 ]; then  # ${EXE_LOTUS_MINER} actor control list
     ${EXE_LOTUS_MINER} actor control list
+    controlnum=`lotus-miner actor control list |wc -l`
+    if [ $controlnum -eq 3 ]; then
+      while [ -z $post_wallet ]
+      do
+        read -e -p "  please input control post-msg wallet:" post_wallet
+        if [ -z $post_wallet ]; then
+          unset post_wallet
+        elif ! echo $post_wallet | grep -q '^f3[0-9]\{4,8\}$' ; then
+          unset post_wallet
+        fi
+      done
+      echo " "
+      
+      #info
+      echo -e "\033[34m  ${EXE_LOTUS_MINER} actor control set --really-do-it $post_wallet \033[0m"
+      
+      check_areyousure
+      if [ $areyousure -eq 1 ]; then
+        ${EXE_LOTUS_MINER} actor control set --really-do-it $post_wallet
+      fi
+    fi
   elif [ $method -eq 22 ]; then  # ${EXE_LOTUS} sync wait
     ${EXE_LOTUS} sync wait
   elif [ $method -eq 222 ]; then  # ${EXE_LOTUS} sync status
