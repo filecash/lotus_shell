@@ -222,7 +222,7 @@ if [ -z $ENV_LOTUS_WORKER_PORT ]; then
 fi
 # ENV_LOG_LEVEL  #export ENV_LOG_LEVEL=info #trace/debug/info/warn/error/fatal/off
 if [ -z $ENV_LOG_LEVEL ]; then
-  while [ -z $lotus_log_level ]
+  while [ -z $log_level ]
   do
     echo -e "\033[34m 
   Select log_level:      [`hostname`]  $localip

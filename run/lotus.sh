@@ -302,40 +302,57 @@ do
       echo -e "\033[34m 
     Select setworkerparam key:      [`hostname`]  $localip
       
+      0 - addpiecemax
       1 - precommit1max
       2 - precommit2max (default)
       3 - commitmax
+      4 - group
       \033[0m"
       read -e -p "  Input:" workerparam_key_type
       if [ -z $workerparam_key_type ]; then
         workerparam_key_type=2
       fi
       
-      if [ $workerparam_key_type -eq 1 ]; then
+      if [ $workerparam_key_type -eq 0 ]; then
+        workerparam_key=addpiecemax
+      elif [ $workerparam_key_type -eq 1 ]; then
         workerparam_key=precommit1max
       elif [ $workerparam_key_type -eq 2 ]; then
         workerparam_key=precommit2max
       elif [ $workerparam_key_type -eq 3 ]; then
         workerparam_key=commitmax
+      elif [ $workerparam_key_type -eq 4 ]; then
+        workerparam_key=group
       else
         echo -e "\033[31m Input error \033[0m"
       fi
     done
     echo " "
     
-    while [ -z $workerparam_key_value ]
-    do
-      read -e -p "  please input key_value (default 1):" workerparam_key_value
-      if [ -z $workerparam_key_value ]; then
-        workerparam_key_value=1
-      elif echo $workerparam_key_value | grep -q '[^0-9]'; then
-        unset workerparam_key_value
-      elif [ $workerparam_key_value -le 0 ] && [ $workerparam_key_value -ge 65535 ]; then
-        unset workerparam_key_value
-      fi
-    done
-    echo " "
-    
+    if [ $workerparam_key_type -eq 4 ]; then
+      while [ -z $workerparam_key_value ]
+      do
+        read -e -p "  please input group_name (default filecash):" workerparam_key_value
+        if [ -z $workerparam_key_value ]; then
+          workerparam_key_value=filecash
+        fi
+      done
+      echo " "
+    else
+      while [ -z $workerparam_key_value ]
+      do
+        read -e -p "  please input key_value (default 1):" workerparam_key_value
+        if [ -z $workerparam_key_value ]; then
+          workerparam_key_value=1
+        elif echo $workerparam_key_value | grep -q '[^0-9]'; then
+          unset workerparam_key_value
+        elif [ $workerparam_key_value -le 0 ] && [ $workerparam_key_value -ge 65535 ]; then
+          unset workerparam_key_value
+        fi
+      done
+      echo " "
+    fi
+
     while [ -z $start ]
     do
       read -e -p "  please input start: " start
@@ -629,7 +646,7 @@ do
     #info
     echo -e "\033[34m  ${EXE_LOTUS_MINER} actor withdraw $balance \033[0m"
     
-    check_areyousure
+    check_areyousure 3
     if [ $areyousure -eq 1 ]; then
       ${EXE_LOTUS_MINER} actor withdraw $balance
     fi
