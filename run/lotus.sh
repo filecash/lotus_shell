@@ -34,6 +34,7 @@ do
     11 - ${EXE_LOTUS_MINER} sectors status --log <sector>
     12 - ${EXE_LOTUS_MINER} sectors update-state --really-do-it <sector> [status]
     13 - ${EXE_LOTUS_MINER} sectors remove --really-do-it <sector>
+    133 - ${EXE_LOTUS_SHED} sectors terminate --really-do-it <sector>
     
     14 - ${EXE_LOTUS_MINER} proving info
     144 - ${EXE_LOTUS_MINER} proving faults
@@ -508,6 +509,46 @@ do
       check_areyousure
       if [ $areyousure -eq 1 ]; then
         ${EXE_LOTUS_MINER} sectors remove --really-do-it ${i}
+      fi
+      sleep 1
+      echo " "
+    done
+    echo " "
+    
+  }
+  elif [ $method -eq 133 ]; then  # ${EXE_LOTUS_SHED} sectors terminate --really-do-it <sector>
+  {
+    while [ -z $start ]
+    do
+      read -e -p "  please input start: " start
+      if [ -z $start ]; then
+        unset start
+      elif echo $start | grep -q '[^0-9]'; then
+        unset start
+      elif [ $start -le 0 ] && [ $start -ge 65535 ]; then
+        unset start
+      fi
+    done
+    while [ -z $end ]
+    do
+      read -e -p "  please input  end : " end
+      if [ -z $end ]; then
+        end=$start
+      elif echo $end | grep -q '[^0-9]'; then
+        unset end
+      elif [ $end -le 0 ] && [ $end -ge 65535 ]; then
+        unset end
+      fi
+    done
+    echo " "
+    for ((i=${start};i<=${end};i++))
+    do
+      # tips
+      echo -e "\033[34m ${EXE_LOTUS_SHED} sectors terminate --really-do-it ${i} \033[0m"
+      
+      check_areyousure
+      if [ $areyousure -eq 1 ]; then
+        ${EXE_LOTUS_SHED} sectors terminate --really-do-it ${i}
       fi
       sleep 1
       echo " "

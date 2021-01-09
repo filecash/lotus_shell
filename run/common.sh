@@ -18,7 +18,6 @@ if [ $swappint -gt 1 ]; then
   swapoff -a
 fi
 
-
 #rm -rf /usr/local/bin/pause
 if [ ! -f "/usr/local/bin/pause" ]; then 
   sudo echo "#! /bin/bash
@@ -74,6 +73,10 @@ check_killprocess() {
 }
 
 check_areyousure() {
+  if [ ! -z $1 ]; then
+    count=$1
+  fi
+  #echo $count
   if [ -z $tips ]; then
     unset areyousure
   fi
@@ -81,6 +84,14 @@ check_areyousure() {
   do
     echo " "
     read -e -r -p "Are you sure? [[Y]es/[N]o/[A]llow] " input
+    if [ ! -z $1 ]; then
+      if [ ! -z $count ]; then
+        count=$(($count-1))
+      fi
+      if [ $count -eq 0 ]; then
+        input="yes"
+      fi
+    fi
     case $input in
       [yY][eE][sS]|[yY])
         echo -e "\033[34m Yes \033[0m"
@@ -107,11 +118,23 @@ check_areyousure() {
 }
 
 check_yesorno() {
+  if [ ! -z $1 ]; then
+    count=$1
+  fi
+  #echo $count
   unset yesorno
   while [ -z $yesorno ]
   do
     echo " "
     read -e -r -p "Are you sure? [[Y]es/[N]o " input
+    if [ ! -z $1 ]; then
+      if [ ! -z $count ]; then
+        count=$(($count-1))
+      fi
+      if [ $count -eq 0 ]; then
+        input="yes"
+      fi
+    fi
     case $input in
       [yY][eE][sS]|[yY])
         echo -e "\033[34m Yes \033[0m"
@@ -129,6 +152,58 @@ check_yesorno() {
     esac
   done
   return $yesorno
+}
+
+# Colorefull print 加粗
+
+function red_print() {
+    local text=$@
+
+    # echo ""
+    echo -e "\033[1m\033[31m[$text]\033[0m"   # 红色加粗, 并复原
+    # echo ""
+}
+
+function green_print() {
+    local text=$@
+
+    echo ""
+    echo -e "\033[1m\033[32m[$text]\033[0m"   # 绿色加粗, 并复原
+    # echo ""
+}
+
+function blue_print() {
+    local text=$@
+
+    # echo ""
+    echo -e "\033[1m\033[36m[$text]\033[0m"   # 蓝色加粗, 并复原
+    # echo ""
+}
+
+# Colorefull print2 不加粗
+
+function red_print2() {
+    local text=$@
+
+    # echo ""
+    echo -e "\033[31m[$text]\033[0m"   # 红色, 并复原
+    # echo ""
+}
+
+function green_print2() {
+    local text=$@
+
+    echo ""
+    echo -e "\033[32m[$text]\033[0m"   # 绿色, 并复原
+    # echo ""
+}
+
+function blue_print2() {
+    local text=$@
+
+    # echo ""
+    echo -e "\033[36m[$text]\033[0m"   # 蓝色, 并复原
+    # echo ""
 }
 
 

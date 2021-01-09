@@ -8,8 +8,8 @@ if [ ! -d $ENV_LOG_DIR ]; then
   mkdir -p $ENV_LOG_DIR
 fi
 
-unset ENV_LOTUS_BIN  ENV_LOTUS_ROOT  ENV_LOTUS_NetWORK  ENV_SECTOR_SIZE  ENV_LOTUS_WORKER_PORT 
-# ENV_LOTUS_BIN  ENV_LOTUS_ROOT  ENV_LOTUS_NetWORK  ENV_SECTOR_SIZE  ENV_LOTUS_WORKER_PORT 
+unset ENV_LOTUS_BIN  ENV_LOTUS_ROOT  ENV_LOTUS_NetWORK  ENV_SECTOR_SIZE  ENV_LOTUS_WORKER_PORT  ENV_LOG_LEVEL
+# ENV_LOTUS_BIN  ENV_LOTUS_ROOT  ENV_LOTUS_NetWORK  ENV_SECTOR_SIZE  ENV_LOTUS_WORKER_PORT  ENV_LOG_LEVEL
 source $ENV_LOG_DIR/env_lotus
 
 # ENV_LOTUS_BIN  lotus lotus-miner lotus-worker  #export ENV_LOTUS_BIN=/usr/local/bin
@@ -57,6 +57,72 @@ if [ -z $ENV_LOTUS_ROOT ]; then
   done
   echo " "
 fi
+# ENV_LOTUS_PATH  #export ENV_LOTUS_PATH=/mnt/lotus 
+if [ -z $ENV_LOTUS_PATH ]; then
+  # tips
+  echo -e "\033[34m ENV_LOTUS_PATH=/mnt/lotus   (default) \033[0m"
+  
+  while [ -z $lotus_path ]
+  do
+    #lotus_path
+    while [ -z $lotus_path ]
+    do
+      read -e -p '  please input lotus_path:' lotus_path
+      if [ -z $lotus_path ]; then
+        lotus_path=/mnt/lotus
+      fi
+    done
+    #echo ' '
+    echo "export ENV_LOTUS_PATH=$lotus_path" >> $ENV_LOG_DIR/env_lotus
+    # tips
+    echo -e "\033[34m ENV_LOTUS_PATH=$lotus_path \033[0m"
+  done
+  echo " "
+fi
+# LOTUS_MINER_PATH  #export LOTUS_MINER_PATH=/mnt/miner 
+if [ -z $ENV_LOTUS_MINER_PATH ]; then
+  # tips
+  echo -e "\033[34m ENV_LOTUS_MINER_PATH=/mnt/miner   (default) \033[0m"
+  
+  while [ -z $lotus_miner_path ]
+  do
+    #lotus_miner_path
+    while [ -z $lotus_miner_path ]
+    do
+      read -e -p '  please input lotus_miner_path:' lotus_miner_path
+      if [ -z $lotus_miner_path ]; then
+        lotus_miner_path=/mnt/miner
+      fi
+    done
+    #echo ' '
+    echo "export ENV_LOTUS_MINER_PATH=$lotus_miner_path" >> $ENV_LOG_DIR/env_lotus
+    # tips
+    echo -e "\033[34m ENV_LOTUS_MINER_PATH=$lotus_miner_path \033[0m"
+  done
+  echo " "
+fi
+# LOTUS_WORKER_PATH  #export LOTUS_WORKER_PATH=/mnt/worker 
+if [ -z $ENV_LOTUS_MINER_PATH ]; then
+  # tips
+  echo -e "\033[34m ENV_LOTUS_WORKER_PATH=/mnt/worker   (default) \033[0m"
+  
+  while [ -z $lotus_worker_path ]
+  do
+    #lotus_worker_path
+    while [ -z $lotus_worker_path ]
+    do
+      read -e -p '  please input lotus_worker_path:' lotus_worker_path
+      if [ -z $lotus_worker_path ]; then
+        lotus_worker_path=/mnt/worker
+      fi
+    done
+    #echo ' '
+    echo "export ENV_LOTUS_WORKER_PATH=$lotus_worker_path" >> $ENV_LOG_DIR/env_lotus
+    # tips
+    echo -e "\033[34m ENV_LOTUS_WORKER_PATH=$lotus_worker_path \033[0m"
+  done
+  echo " "
+fi
 # ENV_LOTUS_NetWORK  #export ENV_LOTUS_NetWORK=filecoin
 if [ -z $ENV_LOTUS_NetWORK ]; then
   while [ -z $lotus_network ]
@@ -66,6 +132,7 @@ if [ -z $ENV_LOTUS_NetWORK ]; then
     
     0 - filecoin (default)
     1 - filecash
+    2 - filestar
     \033[0m"
     read -e -p "  please input lotus_network:" lotus_network
     if [ -z $lotus_network ]; then
@@ -83,6 +150,8 @@ if [ -z $ENV_LOTUS_NetWORK ]; then
         echo "export ENV_LOTUS_NetWORK=filecoin" >> $ENV_LOG_DIR/env_lotus
       elif [ $lotus_network -eq 1 ]; then  #filecash
         echo "export ENV_LOTUS_NetWORK=filecash" >> $ENV_LOG_DIR/env_lotus
+      elif [ $lotus_network -eq 2 ]; then  #filestar
+        echo "export ENV_LOTUS_NetWORK=filestar" >> $ENV_LOG_DIR/env_lotus
       else
         echo -e "\033[31m Input error \033[0m"
       fi
@@ -151,6 +220,59 @@ if [ -z $ENV_LOTUS_WORKER_PORT ]; then
   done
   echo " "
 fi
+# ENV_LOG_LEVEL  #export ENV_LOG_LEVEL=info #trace/debug/info/warn/error/fatal/off
+if [ -z $ENV_LOG_LEVEL ]; then
+  while [ -z $lotus_log_level ]
+  do
+    echo -e "\033[34m 
+  Select log_level:      [`hostname`]  $localip
+    
+    0 - trace
+    1 - debug
+    2 - info
+    3 - warn (default)
+    4 - error
+    5 - fatal
+    6 - off
+    \033[0m"
+    read -e -p "  please input log_level:" log_level
+    if [ -z $log_level ]; then
+      log_level=3
+    fi
+
+    if [ -z $log_level ]; then
+      unset log_level
+    elif echo $log_level |grep -q '[^0-9]'; then
+      unset log_level
+    elif [ $log_level -le 0 ] && [ $log_level -ge 2 ]; then
+      unset log_level
+    else
+      if [ $log_level -eq 0 ]; then    #trace
+        echo "export ENV_LOG_LEVEL=trace" >> $ENV_LOG_DIR/env_lotus
+      elif [ $log_level -eq 1 ]; then  #debug
+        echo "export ENV_LOG_LEVEL=debug"   >> $ENV_LOG_DIR/env_lotus
+      elif [ $log_level -eq 2 ]; then  #info
+        echo "export ENV_LOG_LEVEL=info"  >> $ENV_LOG_DIR/env_lotus
+      elif [ $log_level -eq 3 ]; then  #warn (default)
+        echo "export ENV_LOG_LEVEL=warn"  >> $ENV_LOG_DIR/env_lotus
+      elif [ $log_level -eq 4 ]; then  #error
+        echo "export ENV_LOG_LEVEL=error"  >> $ENV_LOG_DIR/env_lotus
+      elif [ $log_level -eq 5 ]; then  #fatal
+        echo "export ENV_LOG_LEVEL=fatal"  >> $ENV_LOG_DIR/env_lotus
+      elif [ $log_level -eq 6 ]; then  #off
+        echo "export ENV_LOG_LEVEL=off"  >> $ENV_LOG_DIR/env_lotus
+      else
+        echo -e "\033[31m Input error \033[0m"
+      fi
+    fi
+    #echo ' '
+  done
+  echo " "
+fi
+
+export LOTUS_PATH=$ENV_LOTUS_ROOT/lotus
+export LOTUS_MINER_PATH=$ENV_LOTUS_ROOT/miner
+export LOTUS_WORKER_PATH=$ENV_LOTUS_ROOT/worker
 
 # ENV_LOTUS_BIN  ENV_LOTUS_ROOT  ENV_LOTUS_NetWORK  ENV_SECTOR_SIZE  ENV_LOTUS_WORKER_PORT 
 source $ENV_LOG_DIR/env_lotus
@@ -160,14 +282,17 @@ export PATH="${ENV_LOTUS_BIN}:/usr/local/go/bin:${HOME}/go/bin:${HOME}/.cargo/bi
 export EXE_LOTUS=lotus
 export EXE_LOTUS_MINER=lotus-miner
 export EXE_LOTUS_WORKER=lotus-worker
-export EXE_LOTUS_BENCH=lotus-bench
+export EXE_LOTUS_SHED=lotus-shed
 export EXE_LOTUS_SEED=lotus-seed
+export EXE_LOTUS_BENCH=lotus-bench
 export EXE_LOTUS_FOUNTAIN=lotus-fountain
 
-# log  all/trace/debug/info/warn/error/fatal/off
+# rust log 
 export RUST_BACKTRACE=full
-export RUST_LOG=info
-export GOLOG_LOG_LEVEL=info
+export RUST_LOG=$ENV_LOG_LEVEL
+# go log 
+export GOLOG_LOG_LEVEL=$ENV_LOG_LEVEL
+
 
 # gpu_num
 gpu_num=`nvidia-smi -q |grep 'Product Name' |awk -F : '{print $2}'|wc -l`
@@ -195,8 +320,8 @@ fi
 
 # multi sdr
 export FIL_PROOFS_USE_MULTICORE_SDR=1
-export FIL_PROOFS_SDR_PARENTS_CACHE_SIZE=2048
-#export FIL_PROOFS_PARENT_CACHE_SIZE=2048
+#export FIL_PROOFS_SDR_PARENTS_CACHE_SIZE=1073741824
+#export FIL_PROOFS_PARENT_CACHE_SIZE=1073741824
 
 # speed or memory
 export FIL_PROOFS_MAXIMIZE_CACHING=1
@@ -212,10 +337,20 @@ export LOTUS_MINER_PATH=$ENV_LOTUS_ROOT/miner
 export LOTUS_WORKER_PATH=$ENV_LOTUS_ROOT/worker
 export LOTUS_BENCH_PATH=$ENV_LOTUS_ROOT/bench
 export LOTUS_MINER_STORE_PATH=$ENV_LOTUS_ROOT/miner_store
-export CIRCLE_ARTIFACTS=$ENV_LOTUS_ROOT/tmp
 export TMPDIR=$ENV_LOTUS_ROOT/tmp
+export CIRCLE_ARTIFACTS=$TMPDIR
 export FIL_PROOFS_PARENT_CACHE=$ENV_LOTUS_ROOT/proofs_parent_cache
 export FIL_PROOFS_PARAMETER_CACHE=$ENV_LOTUS_ROOT/proofs
+
+if [ ! -z $ENV_LOTUS_MINER_PATH ]; then 
+  export LOTUS_PATH=$ENV_LOTUS_PATH
+fi
+if [ ! -z $ENV_LOTUS_MINER_PATH ]; then 
+  export LOTUS_MINER_PATH=$ENV_LOTUS_MINER_PATH
+fi
+if [ ! -z $ENV_LOTUS_WORKER_PATH ]; then 
+  export LOTUS_WORKER_PATH=$ENV_LOTUS_WORKER_PATH
+fi
 
 if [ ! -d $LOTUS_PATH ]; then
   mkdir -p $LOTUS_PATH
@@ -267,5 +402,9 @@ if [ -z $ENV_LOTUS_NetWORK ]; then
 elif [[ "$ENV_LOTUS_NetWORK" == "filecoin" ]]; then
   export IPFS_GATEWAY="https://proof-parameters.s3.cn-south-1.jdcloud-oss.com/ipfs/"
 elif [[ "$ENV_LOTUS_NetWORK" == "filecash" ]]; then
+  export IPFS_GATEWAY="https://proofs.file.cash/ipfs/"
+elif [[ "$ENV_LOTUS_NetWORK" == "filestar" ]]; then
+  export IPFS_GATEWAY="https://filestar-proofs.s3.cn-east-1.jdcloud-oss.com/ipfs/"
+else
   unset IPFS_GATEWAY
 fi
