@@ -102,7 +102,7 @@ if [ -z $ENV_LOTUS_MINER_PATH ]; then
   echo " "
 fi
 # LOTUS_WORKER_PATH  #export LOTUS_WORKER_PATH=/mnt/worker 
-if [ -z $ENV_LOTUS_MINER_PATH ]; then
+if [ -z $ENV_LOTUS_WORKER_PATH ]; then
   # tips
   echo -e "\033[34m ENV_LOTUS_WORKER_PATH=/mnt/worker   (default) \033[0m"
   
@@ -120,6 +120,28 @@ if [ -z $ENV_LOTUS_MINER_PATH ]; then
     echo "export ENV_LOTUS_WORKER_PATH=$lotus_worker_path" >> $ENV_LOG_DIR/env_lotus
     # tips
     echo -e "\033[34m ENV_LOTUS_WORKER_PATH=$lotus_worker_path \033[0m"
+  done
+  echo " "
+fi
+# ENV_LOTUS_PROOFS_PATH  #export LOTUS_PROOFS_PATH=/mnt/proofs 
+if [ -z $ENV_LOTUS_PROOFS_PATH ]; then
+  # tips
+  echo -e "\033[34m ENV_LOTUS_PROOFS_PATH=/mnt/proofs   (default) \033[0m"
+  
+  while [ -z $lotus_proofs_path ]
+  do
+    #lotus_proofs_path
+    while [ -z $lotus_proofs_path ]
+    do
+      read -e -p '  please input lotus_proofs_path:' lotus_proofs_path
+      if [ -z $lotus_proofs_path ]; then
+        lotus_proofs_path=/mnt/worker
+      fi
+    done
+    #echo ' '
+    echo "export ENV_LOTUS_PROOFS_PATH=$lotus_proofs_path" >> $ENV_LOG_DIR/env_lotus
+    # tips
+    echo -e "\033[34m ENV_LOTUS_PROOFS_PATH=$lotus_proofs_path \033[0m"
   done
   echo " "
 fi
@@ -350,6 +372,9 @@ if [ ! -z $ENV_LOTUS_MINER_PATH ]; then
 fi
 if [ ! -z $ENV_LOTUS_WORKER_PATH ]; then 
   export LOTUS_WORKER_PATH=$ENV_LOTUS_WORKER_PATH
+fi
+if [ ! -z $ENV_LOTUS_PROOFS_PATH ]; then 
+  export FIL_PROOFS_PARAMETER_CACHE=$ENV_LOTUS_PROOFS_PATH
 fi
 
 if [ ! -d $LOTUS_PATH ]; then

@@ -46,11 +46,12 @@ do
       
     18 - ${EXE_LOTUS_MINER} actor withdraw [MinerBalance]
     19 - ${EXE_LOTUS} send --from=$owner --method=14 --params-json='\"[MinerBalance]000000000000000000\"' [MinerID] [MinerBalance]
-    199 - ${EXE_LOTUS} send --from=$owner [MinerID] [MinerBalance]
+    199 - ${EXE_LOTUS} send --from=$owner [wallet] [Balance]
     20 - ${EXE_LOTUS} wallet new bls
     200 - ${EXE_LOTUS} wallet new
     21 - ${EXE_LOTUS} wallet list
     211 - ${EXE_LOTUS_MINER} actor control list
+    212 - ${EXE_LOTUS_MINER} actor set-owner --really-do-it <wallet>
     22 - ${EXE_LOTUS} sync wait
     222 - ${EXE_LOTUS} sync status
     23 - ${EXE_LOTUS} chain list
@@ -684,15 +685,48 @@ do
       ${EXE_LOTUS} send --from=$owner --method=14 --params-json="'\"""${balance}000000000000000000""\"'" $minerid $balance
     fi
   }
-  elif [ $method -eq 199 ]; then  # ${EXE_LOTUS} send --from=$owner [MinerID] [MinerBalance]
+#  elif [ $method -eq 199 ]; then  # ${EXE_LOTUS} send --from=$owner [MinerID] [MinerBalance]
+#  {
+#    while [ -z $minerid ]
+#    do
+#      read -e -p "  please input minerid:" minerid
+#      if [ -z $minerid ]; then
+#        minerid=`lotus-miner info |grep "Miner" |awk 'NR==1 {print $2}'`
+#      elif ! echo $minerid | grep -q '^f0[0-9]\{4,8\}$' ; then
+#        unset minerid
+#      fi
+#    done
+#    echo " "
+#    while [ -z $balance ]
+#    do
+#      read -e -p "  please input send_balance:" balance
+#      if [ -z $balance ]; then
+#        unset balance
+#      elif echo $balance | grep -q '[^0-9]'; then
+#        unset balance
+#      elif [ $balance -le 0 ] && [ $balance -ge 65535 ]; then
+#        unset balance
+#      fi
+#    done
+#    echo " "
+#    
+#    #info
+#    echo -e "\033[34m  ${EXE_LOTUS} send --from=$owner $minerid $balance \033[0m"
+#    
+#    check_areyousure
+#    if [ $areyousure -eq 1 ]; then
+#      ${EXE_LOTUS} send --from=$owner $minerid $balance
+#    fi
+#  }
+  elif [ $method -eq 199 ]; then  # ${EXE_LOTUS} send --from=$owner [wallet] [Balance]
   {
-    while [ -z $minerid ]
+    while [ -z $recv_wallet ]
     do
-      read -e -p "  please input minerid:" minerid
-      if [ -z $minerid ]; then
-        minerid=`lotus-miner info |grep "Miner" |awk 'NR==1 {print $2}'`
-      elif ! echo $minerid | grep -q '^f0[0-9]\{4,8\}$' ; then
-        unset minerid
+      read -e -p "  please input recv_wallet:" recv_wallet
+      if [ -z $recv_wallet ]; then
+        unset recv_wallet
+      elif ! echo $recv_wallet | grep ^[tf].* ; then
+        unset recv_wallet
       fi
     done
     echo " "
@@ -710,11 +744,11 @@ do
     echo " "
     
     #info
-    echo -e "\033[34m  ${EXE_LOTUS} send --from=$owner $minerid $balance \033[0m"
+    echo -e "\033[34m  ${EXE_LOTUS} send --from=$owner $recv_wallet $balance \033[0m"
     
     check_areyousure
     if [ $areyousure -eq 1 ]; then
-      ${EXE_LOTUS} send --from=$owner $minerid $balance
+      ${EXE_LOTUS} send --from=$owner $recv_wallet $balance
     fi
   }
   elif [ $method -eq 20 ]; then  # ${EXE_LOTUS} wallet new bls
@@ -752,6 +786,7 @@ do
     #done
   }
   elif [ $method -eq 211 ]; then  # ${EXE_LOTUS_MINER} actor control list
+  {
     ${EXE_LOTUS_MINER} actor control list
     controlnum=`lotus-miner actor control list |wc -l`
     if [ $controlnum -eq 3 ]; then
@@ -760,7 +795,7 @@ do
         read -e -p "  please input control post-msg wallet:" post_wallet
         if [ -z $post_wallet ]; then
           unset post_wallet
-        elif ! echo $post_wallet | grep -q '^f3[0-9]\{4,8\}$' ; then
+        elif ! echo $post_wallet |grep -E "t3|f3" |awk 'NR==1 {print $1}' ; then
           unset post_wallet
         fi
       done
@@ -774,6 +809,28 @@ do
         ${EXE_LOTUS_MINER} actor control set --really-do-it $post_wallet
       fi
     fi
+  }
+  elif [ $method -eq 212 ]; then  # ${EXE_LOTUS_MINER} actor set-owner --really-do-it <wallet>
+  {
+      while [ -z $owner_wallet ]
+      do
+        read -e -p "  please input control owner_wallet:" owner_wallet
+        if [ -z $owner_wallet ]; then
+          unset owner_wallet
+        elif ! echo $owner_wallet |grep -E "t3|f3" |awk 'NR==1 {print $1}' ; then
+          unset owner_wallet
+        fi
+      done
+      echo " "
+      
+      #info
+      echo -e "\033[34m  ${EXE_LOTUS_MINER} actor set-owner --really-do-it $owner_wallet \033[0m"
+      
+      check_areyousure
+      if [ $areyousure -eq 1 ]; then
+        ${EXE_LOTUS_MINER} actor set-owner --really-do-it $owner_wallet
+      fi
+  }
   elif [ $method -eq 22 ]; then  # ${EXE_LOTUS} sync wait
     ${EXE_LOTUS} sync wait
   elif [ $method -eq 222 ]; then  # ${EXE_LOTUS} sync status
