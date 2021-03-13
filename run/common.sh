@@ -55,6 +55,20 @@ check_pid_exist() {
   fi
 }
 
+check_gpu_num() {
+  string=`lspci |grep VGA |awk '{print $5}' | tr "\n" ","`
+  array=(${string//,/ }) 
+  for var in ${array[@]}
+  do
+    echo $var
+    if [ "$var" == "NVIDIA" ]; then 
+      gpu_num=`nvidia-smi -q |grep 'Product Name' |awk -F : '{print $2}'|wc -l`
+    else
+      gpu_num=0
+    fi
+  done
+}
+
 check_killprocess() {
   #myselfpath=$(cd "$(dirname $0)";pwd)
   myself=$1
