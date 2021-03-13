@@ -317,7 +317,7 @@ export GOLOG_LOG_LEVEL=$ENV_LOG_LEVEL
 
 
 # gpu_num
-gpu_num=`nvidia-smi -q |grep 'Product Name' |awk -F : '{print $2}'|wc -l`
+check_gpu_num
 if [ $gpu_num -eq 0 ]; then
   # nogpu
   export BELLMAN_NO_GPU=1
@@ -342,6 +342,7 @@ fi
 
 # multi sdr
 export FIL_PROOFS_USE_MULTICORE_SDR=1
+export FIL_PROOFS_MULTICORE_SDR_PRODUCERS=1 #lscpu -e | grep ':0   '
 #export FIL_PROOFS_SDR_PARENTS_CACHE_SIZE=1073741824
 #export FIL_PROOFS_PARENT_CACHE_SIZE=1073741824
 
